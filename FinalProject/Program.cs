@@ -50,43 +50,71 @@ namespace FinalProject
             Console.Write("Введите ваш возраст цифрами: ");
             UserData.age = byte.Parse(Console.ReadLine());
 
-            Console.Write("Есть ли у вас животные? Да / Нет? ");
-            petResult = Console.ReadLine();
-
-            if (petResult == "Да")
+            do
             {
-                UserData.hasPet = true;
+                Console.Write("У вас есть домашние животные? Да / Нет? ");
+                petResult = Console.ReadLine();
 
-                Console.Write("Сколько у вас животных? ");
-                amountOfPets = int.Parse(Console.ReadLine());
+                if (petResult == "Да")
+                {
+                    UserData.hasPet = true;
 
-                UserData.petNickNames = new string[amountOfPets];
-                UserData.petNickNames = GetPetNickNamesFromUser(amountOfPets);
-            }
-            else
+                    Console.Write("Сколько у вас животных? ");
+                    amountOfPets = int.Parse(Console.ReadLine());
+
+                    UserData.petNickNames = new string[amountOfPets];
+                    UserData.petNickNames = GetPetNickNamesFromUser(amountOfPets);
+
+                    break;
+                }
+                else if (petResult == "Нет")
+                {
+                    UserData.hasPet = false;
+                    UserData.petNickNames = null;
+
+                    break;
+                }
+                else
+                {
+                    UserData.hasPet = false;
+                    UserData.petNickNames = null;
+                    Console.WriteLine("Некорректный ввод. Повторите попытку!");
+                }
+            } while (petResult != "Да" || petResult != "Нет");
+
+
+            do
             {
-                UserData.hasPet = false;
-                UserData.petNickNames = null;
-            }
+                Console.Write("У вас есть любимые цвета? Да / Нет? ");
+                colorResult = Console.ReadLine();
 
-            Console.Write("У вас есть любимые цвета? Да / Нет? ");
-            colorResult = Console.ReadLine();
+                if (colorResult == "Да")
+                {
+                    UserData.hasFavColors = true;
 
-            if (colorResult == "Да")
-            {
-                UserData.hasFavColors = true;
+                    Console.Write("Сколько у вас любимых цветов? ");
+                    amountOfColors = int.Parse(Console.ReadLine());
 
-                Console.WriteLine("Сколько у вас любимых цветов?");
-                amountOfColors = int.Parse(Console.ReadLine());
+                    UserData.favColors = new string[amountOfColors];
+                    UserData.favColors = GetColorsFromUser(amountOfColors);
 
-                UserData.favColors = new string[amountOfColors];
-                UserData.favColors = GetColorsFromUser(amountOfColors);
-            }
-            else
-            {
-                UserData.hasFavColors = false;
-                UserData.favColors = null;
-            }
+                    break;
+                }
+                else if (colorResult == "Нет")
+                {
+                    UserData.hasFavColors = false;
+                    UserData.favColors = null;
+
+                    break;
+                }
+                else
+                {
+                    UserData.hasFavColors = false;
+                    UserData.favColors = null;
+
+                    Console.WriteLine("Некорректный ввод. Повторите попытку!");
+                }
+            } while (colorResult != "Да" || colorResult != "Нет");
 
             return UserData;
         }
