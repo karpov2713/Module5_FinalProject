@@ -32,13 +32,14 @@ namespace FinalProject
             return favColors;
         }
 
-        static (string name, string lastName, byte age, bool hasPet ,string[] petNickNames, string[] favColors) dataOfUser()
+        static (string name, string lastName, byte age, bool hasPet, string[] petNickNames, bool hasFavColors, string[] favColors) DataOfUser()
         {
-            (string name, string lastName, byte age, bool hasPet, string[] petNickNames, string[] favColors) UserData;
+            (string name, string lastName, byte age, bool hasPet, string[] petNickNames, bool hasFavColors, string[] favColors) UserData;
 
-            string result;
-            int amountOfPets = 0;
-            int amountOfColors = 0;
+            string petResult;
+            int amountOfPets;
+            string colorResult;
+            int amountOfColors;
 
             Console.Write("Введите ваше имя: ");
             UserData.name = Console.ReadLine();
@@ -49,10 +50,10 @@ namespace FinalProject
             Console.Write("Введите ваш возраст цифрами: ");
             UserData.age = byte.Parse(Console.ReadLine());
 
-            Console.Write("Есть ли у вас животные? Да? или Нет?");
-            result = Console.ReadLine();
+            Console.Write("Есть ли у вас животные? Да / Нет? ");
+            petResult = Console.ReadLine();
 
-            if(result == "Да")
+            if (petResult == "Да")
             {
                 UserData.hasPet = true;
 
@@ -64,37 +65,72 @@ namespace FinalProject
             }
             else
             {
-                UserData.hasPet= false;
-                amountOfPets= 0;
+                UserData.hasPet = false;
+                UserData.petNickNames = null;
             }
 
-            Console.WriteLine("Сколько у вас любимых цветов?");
-            amountOfColors = int.Parse(Console.ReadLine());
+            Console.Write("У вас есть любимые цвета? Да / Нет? ");
+            colorResult = Console.ReadLine();
 
-            UserData.favColors = new string[amountOfColors];
-            UserData.favColors = GetColorsFromUser(amountOfColors);
+            if (colorResult == "Да")
+            {
+                UserData.hasFavColors = true;
 
+                Console.WriteLine("Сколько у вас любимых цветов?");
+                amountOfColors = int.Parse(Console.ReadLine());
+
+                UserData.favColors = new string[amountOfColors];
+                UserData.favColors = GetColorsFromUser(amountOfColors);
+            }
+            else
+            {
+                UserData.hasFavColors = false;
+                UserData.favColors = null;
+            }
+
+            return UserData;
+        }
+
+        static void ShowUserData((string name, string lastName, byte age, bool hasPet, string[] petNickNames, bool hasFavColors, string[] favColors) User)
+        {
+            Console.WriteLine($"Имя: {User.name}");
+            Console.WriteLine($"Фамилия: {User.lastName}");
+            Console.WriteLine($"Возраст: {User.age}");
+
+            if (User.hasPet == true)
+            {
+                Console.WriteLine($"Животных всего - {User.petNickNames.Length}:");
+                for (int i = 0; i < User.petNickNames.Length; i++)
+                {
+                    Console.WriteLine(User.petNickNames[i]);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Животных нет.");
+            }
+
+            if (User.hasFavColors == true)
+            {
+                Console.WriteLine($"Любимых цветов - {User.favColors.Length}:");
+                for (int i = 0; i < User.favColors.Length; i++)
+                {
+                    Console.WriteLine(User.favColors[i]);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Любимых цветов нет.");
+            }
         }
 
         static void Main(string[] args)
         {
-            var myApples = 5;
-            var herApples = 4;
-            var result = myApples == herApples;
-            Console.WriteLine(result);
+            (string name, string lastName, byte age, bool hasPet, string[] petNickNames, bool hasFavColors, string[] favColors) UserData;
 
-            string[] favcolors = new string[3];
+            UserData = DataOfUser();
 
-            for (int i = 0; i < favcolors.Length; i++)
-            {
-                favcolors[i] = ShowColor();
-            }
-
-            Console.WriteLine("Ваши любимые цвета: ");
-            foreach (var color in favcolors)
-            {
-                Console.WriteLine(color);
-            }
+            ShowUserData(UserData);
         }
     }
 }
